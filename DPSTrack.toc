@@ -1,0 +1,5 @@
+## Interface: 60100
+## Title: DPSTrack
+## Notes: Tracks incoming DPS, and how long you spend in combat
+DPSTrack.lua
+DPSTrack.xml

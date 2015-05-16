@@ -1,0 +1,61 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.blizzard.com/wow/ui/ 
+                   ..\..\FrameXML\UI.xsd">
+
+<Button name="DPSTrackFrame" parent="UIParent" enableMouse="true" movable="true" frameStrata="LOW">
+<Size x="175" y="40"/>
+<Anchors>
+	<Anchor point="LEFT" relativeTo="UIParent"/>
+</Anchors>
+
+<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+	<BackgroundInsets>
+		<AbsInset left="11" right="12" top="12" bottom="11" />
+	</BackgroundInsets>
+
+	<TileSize>
+		<AbsValue val="32" />
+	</TileSize>
+
+	<EdgeSize>
+		<AbsValue val="32" />
+	</EdgeSize>
+
+</Backdrop>
+
+<!--Define Text and additional frames, TODO add close button n stuff -->
+<Layers>
+	<Layer level="OVERLAY">
+		<FontString name="$parentText" inherits="GameFontNormalSmall" justifyH="CENTER" setAllPoints="true"
+			text="DPS Tracker"/>
+	</Layer>
+</Layers>
+
+<Scripts>
+	
+	<OnLoad>
+		Tracker_OnLoad(self)
+	</OnLoad>
+	
+	<OnEvent>
+		Tracker_OnEvent(self, event, ...)
+	</OnEvent>
+	
+	<OnClick>
+		Tracker_Report()
+	</OnClick>
+
+	<OnDragStart>
+		self:StartMoving()
+	</OnDragStart>
+
+	<OnDragStop>
+		self:StopMovingOrSizing()
+	</OnDragStop>
+
+</Scripts>
+
+</Button>
+
+</Ui>
