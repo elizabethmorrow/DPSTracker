@@ -3,8 +3,8 @@
                    xsi:schemaLocation="http://www.blizzard.com/wow/ui/ 
                    ..\..\FrameXML\UI.xsd">
 
-<Button name="DPSTrackFrame" parent="UIParent" enableMouse="true" movable="true" frameStrata="LOW">
-<Size x="175" y="40"/>
+<Frame name="DisplayerFrame" parent="UIParent" enableMouse="true" movable="true" frameStrata="LOW">
+<Size x="175" y="200"/>
 <Anchors>
 	<Anchor point="LEFT" relativeTo="UIParent"/>
 </Anchors>
@@ -21,16 +21,74 @@
 	<EdgeSize>
 		<AbsValue val="32" />
 	</EdgeSize>
-
 </Backdrop>
 
-<!--Define Text and additional frames, TODO add close button n stuff -->
 <Layers>
 	<Layer level="OVERLAY">
 		<FontString name="$parentText" inherits="GameFontNormalSmall" justifyH="CENTER" setAllPoints="true"
-			text="DPS Tracker"/>
+			text="Damage: "/>
 	</Layer>
 </Layers>
+
+<Frames>
+
+	<Button name="DPSTrackFrame" enableMouse="true" frameStrata="LOW">
+		<!--parent="DisplayerFrame" enableMouse="true" movable="true" frameStrata="LOW"-->
+	<Size x="175" y="40"/>
+	
+	<Anchors>
+		<Anchor point="TOP" relativeTo="DisplayerFrame"/>
+	</Anchors>
+
+	<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\DialogFrame\UI-DialogBox-Border" tile="true">
+		<BackgroundInsets>
+			<AbsInset left="11" right="12" top="12" bottom="11" />
+		</BackgroundInsets>
+
+		<TileSize>
+			<AbsValue val="32" />
+		</TileSize>
+
+		<EdgeSize>
+			<AbsValue val="32" />
+		</EdgeSize>
+
+	</Backdrop>
+
+	<!--Define Text and additional frames, TODO add close button n stuff -->
+	<Layers>
+		<Layer level="OVERLAY">
+			<FontString name="ButtonText" inherits="GameFontNormalSmall" justifyH="CENTER" setAllPoints="true"
+				text="Start Tracking"/>
+		</Layer>
+	</Layers>
+
+	<Scripts>
+		<OnLoad>
+			Button_OnLoad(self)
+		</OnLoad>
+		
+		<!--<OnEvent>
+			Tracker_OnEvent(self, event, ...)
+		</OnEvent>-->
+		
+		<OnClick>
+			Tracker_Report()
+		</OnClick>
+
+		<OnDragStart>
+			self:StartMoving()
+		</OnDragStart>
+
+		<OnDragStop>
+			self:StopMovingOrSizing()
+		</OnDragStop>
+
+	</Scripts>
+
+</Button>
+
+</Frames>
 
 <Scripts>
 	
@@ -55,7 +113,6 @@
 	</OnDragStop>
 
 </Scripts>
-
-</Button>
+</Frame>
 
 </Ui>

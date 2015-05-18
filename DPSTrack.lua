@@ -6,36 +6,22 @@ local endTime = 0
 local elapsedTime = 0
 local totalDamage = 0
 local dps = 0
+local tracking = false
 
 function Tracker_OnLoad(frame)
 	-- Start watching for specific game events
-	frame:RegisterForClicks("RightButtonUp")
 	frame:RegisterForDrag("LeftButton")
 
 	frame:RegisterEvent("UNIT_COMBAT")
 	frame:RegisterEvent("PLAYER_REGEN_DISABLED")
 	frame:RegisterEvent("PLAYER_REGEN_ENABLED")
-
-	local displayFrame = CreateFrame("Frame", "Display", UIParent)
-	frame:SetMovable(true)
-	frame:EnableMouse(true)
-
-	-- Will eventually remove and bind to button
-	frame:RegisterForDrag("LeftButton")
-	frame:SetScript("OnDragStart", frame.StartMoving)
-	frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
-	-- until here
-	
-	displayFrame:SetWidth(175)
-	displayFrame:SetHeight(175)
-	displayFrame:SetPoint("CENTER", UIParent, "CENTER")
-
-	
-	local displayTexture = CreateTexture("ARTWORK")
-	displayTexture:SetAllPoints()
-	displayTexture:SetTexture(0, 0, 255)
-	displayTexture:SetAlpha(0.4)
 end
+
+function Button_OnLoad(frame)
+	frame:RegisterForClicks("RightButtonUp")
+	frame:RegisterForDrag("LeftButton")
+end
+
 
 function Tracker_OnEvent(frame, event, ...)
 	
@@ -55,9 +41,9 @@ function Tracker_OnEvent(frame, event, ...)
 	elseif event == "UNIT_COMBAT" then
 		if InCombatLockdown() then
 			local unit, action, modifier, damage, dType = ...
+			
 			-- If an action is performed that is NOT heal (aka damage done)
 			if unit == "player" and action ~= "HEAL" then
-				-- do stuff
 				totalDamage = totalDamage + damage
 				endTime = GetTime()
 				dps = totalDamage / elapsedTime
@@ -67,6 +53,14 @@ function Tracker_OnEvent(frame, event, ...)
 end
 
 function Tracker_Report(frame)
+	if tracking == false then
+		-- ButtonText:SetText = "Start Tracking"
+		tracking = true
+	else
+		-- ButtonText:SetText = "Start Tracking"
+		tracking = false
+	end
+
 	Update()
 end
 
